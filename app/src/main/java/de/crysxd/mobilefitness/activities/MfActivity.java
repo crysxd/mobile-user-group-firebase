@@ -1,4 +1,4 @@
-package de.crysxd.mobilefitness;
+package de.crysxd.mobilefitness.activities;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

@@ -10,9 +10,9 @@
         android:theme="@style/AppTheme"
         android:name=".MfApplication">
         <activity
-            android:name=".activities.MfSignInActivity"
+            android:name=".activities.MfLauncherActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.DarkStatus"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.MfSignInActivity"
+            android:theme="@style/AppTheme.NoActionBar.DarkStatus" />
         <activity
             android:name=".activities.MfRecordsActivity"
             android:theme="@style/AppTheme.NoActionBar" />

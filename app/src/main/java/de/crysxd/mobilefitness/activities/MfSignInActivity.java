@@ -1,5 +1,7 @@
 package de.crysxd.mobilefitness.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +17,15 @@ import de.crysxd.mobilefitness.fragments.MfSignInFragment;
  * The {@link MfActivity} letting the user logging himself in
  */
 public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnLoginListener {
+
+    /**
+     * Starts the {@link MfSignInActivity}
+     * @param other the {@link Activity} which wants to start this {@link MfSignInActivity}
+     */
+    public static void startActivity(Activity other) {
+        Intent i = new Intent(other, MfSignInActivity.class);
+        other.startActivity(i);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

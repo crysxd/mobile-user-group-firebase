@@ -2,6 +2,6 @@
     <string name="app_name">mobileFit</string>
     <string name="action_settings">Settings</string>
     <string name="ui_welcome_to_app">Welcome to mobileFit</string>
-    <string name="ui_ok">Ok</string>
+    <string name="ui_ok">OK</string>
     <string name="ui_sign_in_failed_try_again">Sign in failed, please try again later</string>
 </resources>

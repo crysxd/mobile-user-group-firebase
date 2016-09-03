@@ -9,18 +9,36 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.crysxd.mobilefitness.R;
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 
 public class MfRecordsActivity extends MfActivity {
 
+    /**
+     * The {@link FirebaseAuth}
+     */
     @Inject
     FirebaseAuth mAuth;
+
+    /**
+     * The {@link TextView} showing the email
+     */
+    @BindView(R.id.textViewEmail)
+    TextView mTextViewEmail;
+
+    /**
+     * The {@link Toolbar}
+     */
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     /**
      * Starts the {@link MfRecordsActivity}
@@ -37,14 +55,18 @@ public class MfRecordsActivity extends MfActivity {
         MfComponentHolder.i().inject(this);
 
         setContentView(R.layout.activity_mf_records);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
+
+        if(mAuth.getCurrentUser() != null) {
+            mTextViewEmail.setText(mAuth.getCurrentUser().getDisplayName() + " (" + mAuth.getCurrentUser().getEmail() + ")");
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Do something!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

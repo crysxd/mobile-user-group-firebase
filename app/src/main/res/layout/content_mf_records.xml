@@ -14,6 +14,7 @@
     tools:showIn="@layout/activity_mf_records">
 
     <TextView
+        android:id="@+id/textViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!" />

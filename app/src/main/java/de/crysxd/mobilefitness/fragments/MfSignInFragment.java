@@ -107,6 +107,9 @@ public class MfSignInFragment extends MfFragment implements
             GoogleSignInAccount account = result.getSignInAccount();
             AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
             mFirebaseAuth.signInWithCredential(credential).addOnCompleteListener(this.getActivity(), this);
+            if(mListener != null) {
+                mListener.onLoginStarted();
+            }
         } else if(mListener != null) {
             mListener.onLoginFailed();
         }
@@ -168,6 +171,11 @@ public class MfSignInFragment extends MfFragment implements
      * A interface to get informed about login events
      */
     public interface OnLoginListener {
+
+        /**
+         * Called when the login process was started
+         */
+        void onLoginStarted();
 
         /**
          * Called when the login was completed

@@ -1,6 +1,7 @@
 package de.crysxd.mobilefitness.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,11 @@ import de.crysxd.mobilefitness.fragments.MfSignInFragment;
  * The {@link MfActivity} letting the user logging himself in
  */
 public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnLoginListener {
+
+    /**
+     * The prorgess dialog shown while loggin in
+     */
+    private ProgressDialog mProgressDialog;
 
     /**
      * Starts the {@link MfSignInActivity}
@@ -45,6 +51,22 @@ public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnL
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissProrgessDialog();
+    }
+
+    /**
+     * Dismisses the {@link #mProgressDialog} if shown
+     */
+    private void dismissProrgessDialog() {
+        if(mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
     /**
      * Prepares the status bar so the view goes below it
      */
@@ -67,6 +89,15 @@ public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnL
     }
 
     @Override
+    public void onLoginStarted() {
+        dismissProrgessDialog();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(getString(R.string.ui_signing_in));
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+    }
+
+    @Override
     public void onLoginCompleted() {
         // Forward user
         MfRecordsActivity.startActivity(this);
@@ -75,6 +106,7 @@ public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnL
 
     @Override
     public void onLoginFailed() {
+        dismissProrgessDialog();
         new AlertDialog.Builder(this)
                 .setPositiveButton(R.string.ui_ok, null)
                 .setMessage(R.string.ui_sign_in_failed_try_again)

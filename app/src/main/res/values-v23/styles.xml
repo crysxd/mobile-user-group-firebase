@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="AppTheme.NoActionBar.DarkStatus">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+</resources>

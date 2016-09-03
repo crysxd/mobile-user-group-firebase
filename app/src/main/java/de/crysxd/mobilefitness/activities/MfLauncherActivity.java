@@ -31,7 +31,7 @@ public class MfLauncherActivity extends MfActivity {
             MfRecordsActivity.startActivity(this);
 
         } else {
-            MfRecordsActivity.startActivity(this);
+            MfSignInActivity.startActivity(this);
 
         }
 

@@ -22,7 +22,7 @@ public class MfComponentHolder {
      * @param app the {@link Application} instance
      */
     public static void create(Application app) {
-        if(sComponent != null) {
+        if(sComponent == null) {
             sComponent = DaggerMfComponent.builder()
                     .mfAppModule(new MfAppModule(app))
                     .build();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mobileFitness</string>
+    <string name="app_name">mobileFit</string>
     <string name="action_settings">Settings</string>
-    <string name="ui_welcome_to_app">Welcome to mobileFitness</string>
+    <string name="ui_welcome_to_app">Welcome to mobileFit</string>
 </resources>

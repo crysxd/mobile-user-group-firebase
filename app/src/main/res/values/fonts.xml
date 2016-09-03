@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="font_oswald_regular">fonts/Oswald-Regular.ttf</string>
+    <string name="font_roboto_regular">fonts/Roboto-Regular.ttf</string>
+    <string name="default_title_font">@string/font_oswald_regular</string>
+    <string name="default_text_font">@string/font_roboto_regular</string>
+</resources>

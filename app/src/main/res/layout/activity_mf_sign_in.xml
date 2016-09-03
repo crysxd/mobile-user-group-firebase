@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    tools:context="de.crysxd.mobilefitness.activities.MfLoginActivity"
+    tools:context="de.crysxd.mobilefitness.activities.MfSignInActivity"
+    android:id="@+id/baseView"
     android:fitsSystemWindows="true">
 
     <ImageView
@@ -51,7 +52,8 @@
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.gms.common.SignInButton
+    <fragment
+        android:name="de.crysxd.mobilefitness.fragments.MfSignInFragment"
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,21 +3,31 @@ package de.crysxd.mobilefitness.activities;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 
+import butterknife.ButterKnife;
 import de.crysxd.mobilefitness.R;
+import de.crysxd.mobilefitness.fragments.MfSignInFragment;
 
 /**
  * The {@link MfActivity} letting the user logging himself in
  */
-public class MfLoginActivity extends MfActivity {
+public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnLoginListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mf_login);
+        // Create view
+        setContentView(R.layout.activity_mf_sign_in);
+        ButterKnife.bind(this);
+
+        // Let this activity be informed about login events
+        MfSignInFragment signInFragment = (MfSignInFragment)
+                this.getSupportFragmentManager().findFragmentById(R.id.sign_in_button);
+        signInFragment.setOnLoginListener(this);
 
         // Make View go below status bar
         prepareStatusbar();
@@ -43,5 +53,20 @@ public class MfLoginActivity extends MfActivity {
 
         // Default: Use solid status bar
 
+    }
+
+    @Override
+    public void onLoginCompleted() {
+        // Forward user
+        MfRecordsActivity.startActivity(this);
+        this.finish();
+    }
+
+    @Override
+    public void onLoginFailed() {
+        new AlertDialog.Builder(this)
+                .setPositiveButton(R.string.ui_ok, null)
+                .setMessage(R.string.ui_sign_in_failed_try_again)
+                .show();
     }
 }

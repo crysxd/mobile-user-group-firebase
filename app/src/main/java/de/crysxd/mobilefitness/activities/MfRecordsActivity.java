@@ -1,5 +1,7 @@
 package de.crysxd.mobilefitness.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,9 +10,20 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import de.crysxd.mobilefitness.R;
 
 public class MfRecordsActivity extends MfActivity {
+
+    /**
+     * Starts the {@link MfRecordsActivity}
+     * @param other the {@link Activity} which wants to start this {@link MfRecordsActivity}
+     */
+    public static void startActivity(Activity other) {
+        Intent i = new Intent(other, MfRecordsActivity.class);
+        other.startActivity(i);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +36,7 @@ public class MfRecordsActivity extends MfActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

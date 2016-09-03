@@ -6,9 +6,8 @@ import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
- * Created by chrwue on 03/09/16.
+ * The custom {@link Application}
  */
-
 public class MfApplication extends Application {
 
     @Override

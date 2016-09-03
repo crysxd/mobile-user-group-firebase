@@ -18,6 +18,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    applicationVariants.all { variant ->
+        // Set version name so crashes in Firebase get seperated from release builds
+        if (variant.buildType.name.equals('debug')) {
+            variant.mergedFlavor.versionCode = 1
+            variant.mergedFlavor.versionName = 'DEBUG'
+        }
+        variant.outputs.each { output ->
+            def apk = output.outputFile;
+            def newName = "mobilefit_${variant.baseName.replace("-release", "")}_${versionName}_${versionCode}.apk";
+            output.outputFile = new File(apk.parentFile, newName);
+        }
+    }
 }
 
 dependencies {

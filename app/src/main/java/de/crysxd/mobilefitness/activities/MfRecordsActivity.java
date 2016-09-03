@@ -12,9 +12,15 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import javax.inject.Inject;
+
 import de.crysxd.mobilefitness.R;
+import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 
 public class MfRecordsActivity extends MfActivity {
+
+    @Inject
+    FirebaseAuth mAuth;
 
     /**
      * Starts the {@link MfRecordsActivity}
@@ -28,6 +34,8 @@ public class MfRecordsActivity extends MfActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MfComponentHolder.i().inject(this);
+
         setContentView(R.layout.activity_mf_records);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,11 +64,21 @@ public class MfRecordsActivity extends MfActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        // Sign user out
+        if (id == R.id.action_sign_out) {
+            signOut();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Sign the user out and returns to login screen
+     */
+    private void signOut() {
+        mAuth.signOut();
+        MfSignInActivity.startActivity(this);
+        this.finish();
     }
 }

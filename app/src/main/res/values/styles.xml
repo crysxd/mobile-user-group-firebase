@@ -22,7 +22,15 @@
 
     <style name="AppTheme.Toolbar.PopupOverlay" parent="AppTheme.PopupOverlay">
         <item name="fontPath">@string/default_text_font</item>
+    </style>
 
+    <style name="AppTheme.Text.Title">
+        <item name="fontPath">@string/default_title_font</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="AppTheme.Text">
+        <item name="android:textColor">@color/colorTextDark</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

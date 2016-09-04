@@ -50,7 +50,7 @@ public class MfDatabase {
             throw new IllegalStateException("User is not logegd in");
         }
 
-        mRoot = mDatabase.getReference(mAuth.getCurrentUser().getUid());
+        mRoot = mDatabase.getReference("/users/" + mAuth.getCurrentUser().getUid());
     }
 
     /**

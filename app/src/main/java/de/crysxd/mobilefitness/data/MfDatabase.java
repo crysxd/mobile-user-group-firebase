@@ -6,7 +6,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import javax.inject.Inject;
 
@@ -54,10 +53,16 @@ public class MfDatabase {
         mRoot = mDatabase.getReference(mAuth.getCurrentUser().getUid());
     }
 
+    /**
+     * Connects the database to server. Data will be synced from now on
+     */
     public void goOnline() {
         mDatabase.goOnline();
     }
 
+    /**
+     * Disconnects from server. Changes will be only local from now on
+     */
     public void goOffline() {
         mDatabase.goOffline();
     }

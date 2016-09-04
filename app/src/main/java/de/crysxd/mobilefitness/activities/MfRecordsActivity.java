@@ -78,6 +78,7 @@ public class MfRecordsActivity extends MfActivity {
         setContentView(R.layout.activity_mf_records);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        setTitle(R.string.ui_your_records);
 
         mRecyclerView.setAdapter(mAdapter = new MfRecordsAdapter());
 

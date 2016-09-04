@@ -1,6 +1,7 @@
 package de.crysxd.mobilefitness.data;
 
 import android.database.DataSetObservable;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -32,7 +33,8 @@ public class MfRecordsRepository implements ChildEventListener {
     /**
      * The listener
      */
-    private DataSetObservable mObservable = new DataSetObservable();
+    @Nullable
+    private OnRepositoryChangedListener mListener;
 
     /**
      * Creates a new instance
@@ -52,41 +54,53 @@ public class MfRecordsRepository implements ChildEventListener {
     }
 
     /**
-     * Returns the observable for this repsoitory
-     * @return the observable
+     * Sets the {@link OnRepositoryChangedListener} notfied about changes
+     * @param listener the {@link OnRepositoryChangedListener}
      */
-    public synchronized DataSetObservable getObservable() {
-        return mObservable;
+    public synchronized void setOnRepositoryChangedListener(OnRepositoryChangedListener listener) {
+        mListener = listener;
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        updateRecord(dataSnapshot);
+        MfRecord r = updateRecord(dataSnapshot);
+        if(mListener != null) {
+            mListener.onItemAdded(r);
+        }
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        updateRecord(dataSnapshot);
+        MfRecord r = updateRecord(dataSnapshot);
+        if(mListener != null) {
+            mListener.onItemUpdated(r);
+        }
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        updateRecord(dataSnapshot);
+        MfRecord r = updateRecord(dataSnapshot);
+        if(mListener != null) {
+            mListener.onItemRemoved(r);
+        }
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        updateRecord(dataSnapshot);
+        MfRecord r = updateRecord(dataSnapshot);
+        if(mListener != null) {
+            mListener.onItemMoved(r);
+        }
     }
 
     /**
      * Updates the given record
      * @param record the record
      */
-    private void updateRecord(DataSnapshot record) {
+    private MfRecord updateRecord(DataSnapshot record) {
         MfRecord recordInstance = record.getValue(MfRecord.class);
         mRecords.put(UUID.fromString(record.getKey()), recordInstance);
-        mObservable.notifyChanged();
+        return recordInstance;
     }
 
     @Override
@@ -120,7 +134,6 @@ public class MfRecordsRepository implements ChildEventListener {
      */
     public synchronized void delete(MfRecord record) {
         getRecordRef(record.getId()).removeValue();
-        mObservable.notifyChanged();
     }
 
     /**
@@ -131,5 +144,36 @@ public class MfRecordsRepository implements ChildEventListener {
      */
     private DatabaseReference getRecordRef(UUID id) {
         return mDatabase.getRecords().child(id.toString());
+    }
+
+    /**
+     * A interface to get informed about changes
+     */
+    public interface OnRepositoryChangedListener {
+
+        /**
+         * Calles when a new item was added
+         * @param item the item
+         */
+        void onItemAdded(MfRecord item);
+
+        /**
+         * Called when a item was updated
+         * @param item the item
+         */
+        void onItemUpdated(MfRecord item);
+
+        /**
+         * Called when a item was removed
+         * @param item the item
+         */
+        void onItemRemoved(MfRecord item);
+
+        /**
+         * Called when a item was moved
+         * @param item the item
+         */
+        void onItemMoved(MfRecord item);
+
     }
 }

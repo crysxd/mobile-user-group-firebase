@@ -3,6 +3,8 @@ package de.crysxd.mobilefitness;
 import android.app.Application;
 
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
+import de.crysxd.mobilefitness.log.MfFirebaseRemoteLogger;
+import de.crysxd.mobilefitness.log.RemoteLog;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -14,6 +16,11 @@ public class MfApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Setup logging
+        if(!BuildConfig.DEBUG) {
+            RemoteLog.inject(new MfFirebaseRemoteLogger());
+        }
+
         // Setup Calligraphy
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath(this.getString(R.string.default_text_font))
@@ -23,6 +30,5 @@ public class MfApplication extends Application {
 
         // Setup Dagger
         MfComponentHolder.create(this);
-
     }
 }

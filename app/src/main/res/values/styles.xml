@@ -13,7 +13,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.DarkStatus" />
+    <style name="AppTheme.NoActionBar.TranslucentStatus.Dark" />
+
+    <style name="AppTheme.NoActionBar.TranslucentStatus" />
 
     <style name="AppTheme.Toolbar" parent="AppTheme.NoActionBar">
         <item name="android:textColorPrimary">@color/colorTextDark</item>

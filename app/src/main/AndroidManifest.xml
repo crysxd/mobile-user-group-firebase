@@ -23,7 +23,7 @@
         <activity
             android:name=".activities.MfSignInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.DarkStatus" />
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatus.Dark" />
         <activity
             android:name=".activities.MfRecordsActivity"
             android:screenOrientation="portrait"

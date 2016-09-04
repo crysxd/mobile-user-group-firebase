@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -20,8 +21,13 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
+import dagger.multibindings.IntKey;
 import de.crysxd.mobilefitness.R;
+import de.crysxd.mobilefitness.adapter.MfRecordsAdapter;
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
+import de.crysxd.mobilefitness.data.MfRecord;
+import de.crysxd.mobilefitness.data.MfRecordsRepository;
+import de.crysxd.mobilefitness.data.MfUnit;
 
 public class MfRecordsActivity extends MfActivity {
 
@@ -32,16 +38,27 @@ public class MfRecordsActivity extends MfActivity {
     FirebaseAuth mAuth;
 
     /**
-     * The {@link TextView} showing the email
+     * The {@link MfRecordsRepository}
      */
-    @BindView(R.id.textViewEmail)
-    TextView mTextViewEmail;
+    @Inject
+    MfRecordsRepository mRecords;
 
     /**
      * The {@link Toolbar}
      */
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    /**
+     * The {@link RecyclerView}
+     */
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+
+    /**
+     * The {@link RecyclerView}'s adapter
+     */
+    private MfRecordsAdapter mAdapter;
 
     /**
      * Starts the {@link MfRecordsActivity}
@@ -61,10 +78,8 @@ public class MfRecordsActivity extends MfActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
-        if(mAuth.getCurrentUser() != null) {
-            mTextViewEmail.setText(mAuth.getCurrentUser().getDisplayName() + " (" + mAuth.getCurrentUser().getEmail() + ")");
-        }
-
+        mRecyclerView.setAdapter(mAdapter = new MfRecordsAdapter());
+        
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +88,12 @@ public class MfRecordsActivity extends MfActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAdapter.destroy();
     }
 
     @OnLongClick(R.id.toolbar)

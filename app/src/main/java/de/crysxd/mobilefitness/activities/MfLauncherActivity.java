@@ -1,5 +1,7 @@
 package de.crysxd.mobilefitness.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -27,6 +29,15 @@ public class MfLauncherActivity extends MfActivity {
      */
     @Inject
     MfRecordsRepository mRepository;
+
+    /**
+     * Starts the {@link MfLauncherActivity}
+     * @param other the activity which wants to start {@link MfLauncherActivity}
+     */
+    public static void startActivity(Activity other) {
+        Intent i = new Intent(other, MfLauncherActivity.class);
+        other.startActivity(i);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

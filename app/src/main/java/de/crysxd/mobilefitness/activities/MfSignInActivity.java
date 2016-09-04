@@ -100,7 +100,7 @@ public class MfSignInActivity extends MfActivity implements MfSignInFragment.OnL
     @Override
     public void onLoginCompleted() {
         // Forward user
-        MfRecordsActivity.startActivity(this);
+        MfLauncherActivity.startActivity(this);
         this.finish();
     }
 

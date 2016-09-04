@@ -1,6 +1,8 @@
 package de.crysxd.mobilefitness.activities;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -26,11 +29,12 @@ import dagger.multibindings.IntKey;
 import de.crysxd.mobilefitness.R;
 import de.crysxd.mobilefitness.adapter.MfRecordsAdapter;
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
+import de.crysxd.mobilefitness.data.MfKeywordRecordFilter;
 import de.crysxd.mobilefitness.data.MfRecord;
 import de.crysxd.mobilefitness.data.MfRecordsRepository;
 import de.crysxd.mobilefitness.data.MfUnit;
 
-public class MfRecordsActivity extends MfActivity {
+public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     /**
      * The {@link FirebaseAuth}
@@ -85,6 +89,11 @@ public class MfRecordsActivity extends MfActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mAdapter.destroy();
@@ -109,6 +118,19 @@ public class MfRecordsActivity extends MfActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mf_records, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+            searchView.setOnCloseListener(this);
+        }
+
         return true;
     }
 
@@ -140,5 +162,27 @@ public class MfRecordsActivity extends MfActivity {
         mAuth.signOut();
         MfSignInActivity.startActivity(this);
         this.finish();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        search(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        search(newText);
+        return true;
+    }
+
+    private void search(String query) {
+        mAdapter.setFilter(query.isEmpty() ? null : new MfKeywordRecordFilter(query));
+    }
+
+    @Override
+    public boolean onClose() {
+        mAdapter.setFilter(null);
+        return true;
     }
 }

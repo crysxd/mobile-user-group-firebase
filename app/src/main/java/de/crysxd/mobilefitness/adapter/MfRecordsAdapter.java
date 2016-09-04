@@ -1,6 +1,5 @@
 package de.crysxd.mobilefitness.adapter;
 
-import android.database.DataSetObserver;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +9,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -21,6 +17,7 @@ import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 import de.crysxd.mobilefitness.data.MfDateRange;
 import de.crysxd.mobilefitness.data.MfRecord;
 import de.crysxd.mobilefitness.data.MfRecordTimeComparator;
+import de.crysxd.mobilefitness.data.MfRecordsFilter;
 import de.crysxd.mobilefitness.data.MfRecordsRepository;
 
 /**
@@ -50,6 +47,12 @@ public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int TYPE_RECORD = 1;
 
     /**
+     * The filter
+     */
+    @Nullable
+    private MfRecordsFilter mFilter = null;
+
+    /**
      * Creates a new instance
      */
     public MfRecordsAdapter() {
@@ -64,6 +67,16 @@ public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     public void destroy() {
         mRepository.setOnRepositoryChangedListener(null);
+    }
+
+    /**
+     * Sets the filter
+     * @param filter the filter
+     */
+    public void setFilter(MfRecordsFilter filter) {
+        mFilter = filter;
+        reload();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -130,6 +143,9 @@ public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 MfDateRange.getInstance(MfDateRange.BEFORE)};
 
         List<MfRecord> records = mRepository.getAll();
+        if(mFilter != null) {
+            mFilter.filter(records);
+        }
         Collections.sort(records, new MfRecordTimeComparator());
         List<Object> items = new ArrayList<>();
 

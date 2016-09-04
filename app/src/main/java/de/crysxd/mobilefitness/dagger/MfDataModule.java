@@ -12,6 +12,7 @@ import dagger.Provides;
 import de.crysxd.mobilefitness.data.MfDatabase;
 import de.crysxd.mobilefitness.data.MfDateConverter;
 import de.crysxd.mobilefitness.data.MfDrawableResourceConverter;
+import de.crysxd.mobilefitness.data.MfRecordsRepository;
 
 /**
  * A module for database
@@ -43,5 +44,11 @@ public class MfDataModule {
     @Singleton
     public MfDrawableResourceConverter provideDrawableResourceConverter(Context con) {
         return new MfDrawableResourceConverter(con);
+    }
+
+    @Provides
+    @Singleton
+    public MfRecordsRepository provideRecordsRepository(MfDatabase database) {
+        return new MfRecordsRepository(database);
     }
 }

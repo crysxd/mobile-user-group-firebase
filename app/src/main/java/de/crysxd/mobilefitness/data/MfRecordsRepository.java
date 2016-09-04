@@ -1,7 +1,9 @@
 package de.crysxd.mobilefitness.data;
 
+import android.database.DataSetObservable;
 import android.util.Log;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,12 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
-
 /**
  * A repository storing all {@link MfRecord} instances and persists them into the database
  */
-public class MfRecordsRepository implements ValueEventListener {
+public class MfRecordsRepository implements ChildEventListener {
 
     /**
      * The database used
@@ -30,11 +30,15 @@ public class MfRecordsRepository implements ValueEventListener {
     private HashMap<UUID, MfRecord> mRecords = new HashMap<>();
 
     /**
+     * The listener
+     */
+    private DataSetObservable mObservable = new DataSetObservable();
+
+    /**
      * Creates a new instance
      *
      * @param database the database
      */
-    @Inject
     public MfRecordsRepository(MfDatabase database) {
         mDatabase = database;
     }
@@ -42,21 +46,51 @@ public class MfRecordsRepository implements ValueEventListener {
     /**
      * Initialises the repository. This will fail if the user is not logged in
      */
-    public void init() {
+    public synchronized void init() {
         mDatabase.init();
-        mDatabase.setRecordsValueEventListener(this);
+        mDatabase.addRecordChildEventListener(this);
+    }
+
+    /**
+     * Returns the observable for this repsoitory
+     * @return the observable
+     */
+    public synchronized DataSetObservable getObservable() {
+        return mObservable;
     }
 
     @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        mRecords.clear();
-        for (DataSnapshot record : dataSnapshot.getChildren()) {
-            mRecords.put(UUID.fromString(record.getKey()), dataSnapshot.getValue(MfRecord.class));
-        }
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        updateRecord(dataSnapshot);
     }
 
     @Override
-    public void onCancelled(DatabaseError databaseError) {
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        updateRecord(dataSnapshot);
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        updateRecord(dataSnapshot);
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        updateRecord(dataSnapshot);
+    }
+
+    /**
+     * Updates the given record
+     * @param record the record
+     */
+    private void updateRecord(DataSnapshot record) {
+        MfRecord recordInstance = record.getValue(MfRecord.class);
+        mRecords.put(UUID.fromString(record.getKey()), recordInstance);
+        mObservable.notifyChanged();
+    }
+
+    @Override
+    public synchronized void onCancelled(DatabaseError databaseError) {
         Log.w(getClass().getSimpleName(), databaseError.getMessage());
     }
 
@@ -65,7 +99,7 @@ public class MfRecordsRepository implements ValueEventListener {
      *
      * @return all entities
      */
-    public List<MfRecord> getAll() {
+    public synchronized List<MfRecord> getAll() {
         return new ArrayList<>(mRecords.values());
     }
 
@@ -74,7 +108,7 @@ public class MfRecordsRepository implements ValueEventListener {
      *
      * @param record the record
      */
-    public void save(MfRecord record) {
+    public synchronized void save(MfRecord record) {
         getRecordRef(record.getId()).setValue(record);
         this.mRecords.put(record.getId(), record);
     }
@@ -84,8 +118,9 @@ public class MfRecordsRepository implements ValueEventListener {
      *
      * @param record the record
      */
-    public void delete(MfRecord record) {
+    public synchronized void delete(MfRecord record) {
         getRecordRef(record.getId()).removeValue();
+        mObservable.notifyChanged();
     }
 
     /**

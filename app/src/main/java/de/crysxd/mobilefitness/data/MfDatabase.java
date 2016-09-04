@@ -3,6 +3,7 @@ package de.crysxd.mobilefitness.data;
 import android.support.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -31,12 +32,6 @@ public class MfDatabase {
     private DatabaseReference mRoot;
 
     /**
-     * The currently set {@link ValueEventListener}
-     */
-    @Nullable
-    private ValueEventListener mListener;
-
-    /**
      * Creates a new instance
      *
      * @param auth     the {@link FirebaseAuth} instance
@@ -57,17 +52,14 @@ public class MfDatabase {
         }
 
         mRoot = mDatabase.getReference(mAuth.getCurrentUser().getUid());
+    }
+
+    public void goOnline() {
         mDatabase.goOnline();
     }
 
-    /**
-     * Destroys the database
-     */
-    public void destroy() {
-        if (mRoot != null && mListener != null) {
-            getRecords().removeEventListener(mListener);
-            mDatabase.goOffline();
-        }
+    public void goOffline() {
+        mDatabase.goOffline();
     }
 
     /**
@@ -97,15 +89,15 @@ public class MfDatabase {
     }
 
     /**
-     * Sets the {@link ValueEventListener} notified about events
+     * Sets the {@link ChildEventListener} notified about events
      *
-     * @param listener the {@link ValueEventListener}
+     * @param listener the {@link ChildEventListener}
      */
-    public void setRecordsValueEventListener(ValueEventListener listener) {
+    public void addRecordChildEventListener(ChildEventListener listener) {
         if (mRoot == null) {
             throw new IllegalStateException("Database not initialised");
         }
 
-        getRecords().addValueEventListener(mListener = listener);
+        getRecords().addChildEventListener(listener);
     }
 }

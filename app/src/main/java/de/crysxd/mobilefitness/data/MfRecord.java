@@ -145,7 +145,7 @@ public class MfRecord {
     @Exclude
     @DrawableRes
     public int getIconResource() {
-        return mDrawableConverter.toResource(mData.icon, R.drawable.ic_launcher_big);
+        return mDrawableConverter.toResource(mData.icon, R.drawable.ic_exercise_default);
     }
 
     /**

@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import javax.inject.Inject;
 
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
+import de.crysxd.mobilefitness.data.MfRecordsRepository;
 import de.crysxd.mobilefitness.log.RemoteLog;
 
 /**
@@ -21,6 +22,12 @@ public class MfLauncherActivity extends MfActivity {
     @Inject
     FirebaseAuth mAuth;
 
+    /**
+     * The global {@link MfRecordsRepository} instance
+     */
+    @Inject
+    MfRecordsRepository mRepository;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,7 @@ public class MfLauncherActivity extends MfActivity {
 
         // If we are logged in, go to records, else show login
         if(mAuth.getCurrentUser() != null) {
+            mRepository.init();
             RemoteLog.log(getClass().getSimpleName(), "User already signed in, going to MfRecordsActivity");
             MfRecordsActivity.startActivity(this);
 

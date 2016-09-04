@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnLongClick;
 import dagger.multibindings.IntKey;
 import de.crysxd.mobilefitness.R;
@@ -79,15 +80,7 @@ public class MfRecordsActivity extends MfActivity {
         setSupportActionBar(mToolbar);
 
         mRecyclerView.setAdapter(mAdapter = new MfRecordsAdapter());
-        
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Do something!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
     @Override
@@ -116,6 +109,11 @@ public class MfRecordsActivity extends MfActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mf_records, menu);
         return true;
+    }
+
+    @OnClick(R.id.fab)
+    public void onAdd() {
+        mRecords.save(new MfRecord.Builder().setExercise("Max Backsquad").setUnit(MfUnit.KG).setIcon(R.drawable.ic_exercise_default).setAmount(80).build());
     }
 
     @Override

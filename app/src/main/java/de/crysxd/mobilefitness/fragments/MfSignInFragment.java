@@ -29,6 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import javax.inject.Inject;
 
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
+import de.crysxd.mobilefitness.log.RemoteLog;
 
 /**
  * A {@link Fragment} showing a login button and handlign the login process
@@ -91,7 +92,7 @@ public class MfSignInFragment extends MfFragment implements
                     .build();
 
         } else {
-            Log.w(getClass().getSimpleName(), "Attached to Context which is no FragmentActivity");
+            RemoteLog.log(getClass().getSimpleName(), "Attached to Context which is no FragmentActivity");
 
         }
     }
@@ -101,7 +102,7 @@ public class MfSignInFragment extends MfFragment implements
      * @param result the result
      */
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(getClass().getSimpleName(), "handleSignInResult:" + result.isSuccess());
+        RemoteLog.log(getClass().getSimpleName(), "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, forward result to firebase
             GoogleSignInAccount account = result.getSignInAccount();
@@ -126,6 +127,7 @@ public class MfSignInFragment extends MfFragment implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        RemoteLog.log(getClass().getSimpleName(), "Login failed, connectionResult:" + connectionResult.getErrorMessage());
         if(mListener != null) {
             mListener.onLoginFailed();
         }
@@ -152,14 +154,14 @@ public class MfSignInFragment extends MfFragment implements
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
-        Log.d(getClass().getSimpleName(), "signInWithCredential:onComplete:" + task.isSuccessful());
+        RemoteLog.log(getClass().getSimpleName(), "signInWithCredential:onComplete:" + task.isSuccessful());
 
         // If sign in fails, display a message to the user. If sign in succeeds
         // the auth state listener will be notified and logic to handle the
         // signed in user can be handled in the listener.
         if(mListener != null){
             if (!task.isSuccessful()) {
-                Log.w(getClass().getSimpleName(), "signInWithCredential", task.getException());
+                RemoteLog.log(getClass().getSimpleName(), "signInWithCredential", task.getException());
                 mListener.onLoginFailed();
             } else {
                 mListener.onLoginCompleted();

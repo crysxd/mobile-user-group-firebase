@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import javax.inject.Inject;
 
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
+import de.crysxd.mobilefitness.log.RemoteLog;
 
 /**
  * A {@link MfActivity} which routes the user to the sign in or directly to the app
@@ -28,9 +29,11 @@ public class MfLauncherActivity extends MfActivity {
 
         // If we are logged in, go to records, else show login
         if(mAuth.getCurrentUser() != null) {
+            RemoteLog.log(getClass().getSimpleName(), "User already signed in, going to MfRecordsActivity");
             MfRecordsActivity.startActivity(this);
 
         } else {
+            RemoteLog.log(getClass().getSimpleName(), "User not signed in, going to MfSignInActivity");
             MfSignInActivity.startActivity(this);
 
         }

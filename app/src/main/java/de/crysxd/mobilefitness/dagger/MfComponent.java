@@ -3,6 +3,7 @@ package de.crysxd.mobilefitness.dagger;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.crysxd.mobilefitness.activities.MfEditRecordActivity;
 import de.crysxd.mobilefitness.activities.MfLauncherActivity;
 import de.crysxd.mobilefitness.activities.MfRecordsActivity;
 import de.crysxd.mobilefitness.adapter.MfRecordsAdapter;
@@ -28,5 +29,7 @@ public interface MfComponent {
     void inject(MfRecord mfRecord);
 
     void inject(MfRecordsAdapter mfRecordsAdapter);
+
+    void inject(MfEditRecordActivity mfEditRecordActivity);
 
 }

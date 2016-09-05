@@ -89,11 +89,6 @@ public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryT
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         mAdapter.destroy();
@@ -136,7 +131,7 @@ public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryT
 
     @OnClick(R.id.fab)
     public void onAdd() {
-        mRecords.save(new MfRecord.Builder().setExercise("Max Backsquad").setUnit(MfUnit.KG).setIcon(R.drawable.ic_exercise_default).setAmount(80).build());
+        MfEditRecordActivity.startActivity(this);
     }
 
     @Override

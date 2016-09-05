@@ -273,7 +273,7 @@ public class MfRecord {
          * The icon
          */
         @DrawableRes
-        private int mIcon = 0;
+        private int mIcon = R.drawable.ic_exercise_default;
 
         /**
          * The creation time, defaults to now

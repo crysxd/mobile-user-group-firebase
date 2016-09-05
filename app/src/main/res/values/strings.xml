@@ -11,4 +11,11 @@
     <string name="ui_amount_on_date">%1$.2f %2$s on %3$s</string>
     <string name="ui_your_records">Your Records</string>
     <string name="ui_search">Search</string>
+    <string name="ui_exercise">Exercise</string>
+    <string name="ui_amount">Amount</string>
+    <string name="ui_unit">Unit</string>
+    <string name="ui_save">Save</string>
+    <string name="ui_create_record">Create Record</string>
+    <string name="ui_error_unable_to_save_record">Unable to save record</string>
+    <string name="ui_error_enter_value">Please enter a value</string>
 </resources>

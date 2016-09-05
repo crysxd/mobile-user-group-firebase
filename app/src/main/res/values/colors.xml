@@ -5,5 +5,5 @@
     <color name="colorAccent">#E73A4F</color>
     <color name="colorTextDark">#8A000000</color>
     <color name="colorTextLight">#52000000</color>
-    <color name="colorWhite">#ffffff</color>
+    <color name="colorError">#cc0606</color>
 </resources>

@@ -23,4 +23,22 @@ public enum MfUnit {
                 return "";
         }
     }
+
+    /**
+     * Returns the name for this unit
+     *
+     * @return the name
+     */
+    public CharSequence getName() {
+        switch (this) {
+            case KG:
+                return "Kilogramm";
+            case SECONDS:
+                return "Seconds";
+            case METER:
+                return "Meters";
+            default:
+                return "";
+        }
+    }
 }

@@ -123,11 +123,6 @@ public class MfEditRecordActivity extends MfActivity {
             MfRecord record = composeRecord();
             if (record != null) {
                 mRepository.save(composeRecord());
-
-                Bundle data = new Bundle();
-                data.putString("exercise", record.getExercise());
-                mAnalytics.logEvent("record_created", data);
-
                 this.finish();
             }
         }

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import de.crysxd.mobilefitness.data.MfUnit;
 import de.crysxd.mobilefitness.dialog.MfUnitSelectionDialogBuilder;
@@ -61,6 +62,7 @@ public class MfUnitEditText extends TextInputEditText implements View.OnClickLis
     private void init() {
         setOnClickListener(this);
         setOnFocusChangeListener(this);
+        setKeyListener(null);
     }
 
     /**

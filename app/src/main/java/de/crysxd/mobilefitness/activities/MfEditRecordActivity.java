@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
@@ -86,6 +88,12 @@ public class MfEditRecordActivity extends MfActivity {
     MfRecordsRepository mRepository;
 
     /**
+     * The record repository
+     */
+    @Inject
+    FirebaseAnalytics mAnalytics;
+
+    /**
      * Starts the {@link MfEditRecordActivity}
      *
      * @param other the {@link Activity} which wants to start this {@link MfEditRecordActivity}
@@ -115,6 +123,11 @@ public class MfEditRecordActivity extends MfActivity {
             MfRecord record = composeRecord();
             if (record != null) {
                 mRepository.save(composeRecord());
+
+                Bundle data = new Bundle();
+                data.putString("exercise", record.getExercise());
+                mAnalytics.logEvent("record_created", data);
+
                 this.finish();
             }
         }

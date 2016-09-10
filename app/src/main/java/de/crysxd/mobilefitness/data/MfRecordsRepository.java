@@ -55,6 +55,7 @@ public class MfRecordsRepository implements ChildEventListener {
 
     /**
      * Sets the {@link OnRepositoryChangedListener} notfied about changes
+     *
      * @param listener the {@link OnRepositoryChangedListener}
      */
     public synchronized void setOnRepositoryChangedListener(OnRepositoryChangedListener listener) {
@@ -63,44 +64,47 @@ public class MfRecordsRepository implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        MfRecord r = updateRecord(dataSnapshot);
-        if(mListener != null) {
+        MfRecord r = getRecord(dataSnapshot);
+        mRecords.put(r.getId(), r);
+        if (mListener != null) {
             mListener.onItemAdded(r);
         }
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        MfRecord r = updateRecord(dataSnapshot);
-        if(mListener != null) {
+        MfRecord r = getRecord(dataSnapshot);
+        mRecords.put(r.getId(), r);
+        if (mListener != null) {
             mListener.onItemUpdated(r);
         }
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        MfRecord r = updateRecord(dataSnapshot);
-        if(mListener != null) {
+        MfRecord r = getRecord(dataSnapshot);
+        mRecords.remove(r.getId());
+        if (mListener != null) {
             mListener.onItemRemoved(r);
         }
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        MfRecord r = updateRecord(dataSnapshot);
-        if(mListener != null) {
+        MfRecord r = getRecord(dataSnapshot);
+        if (mListener != null) {
             mListener.onItemMoved(r);
         }
     }
 
     /**
-     * Updates the given record
-     * @param record the record
+     * Returns the {@link MfRecord} instance from the given {@link DataSnapshot}
+     *
+     * @param record the {@link DataSnapshot}
+     * @return the {@link MfRecord}
      */
-    private MfRecord updateRecord(DataSnapshot record) {
-        MfRecord recordInstance = record.getValue(MfRecord.class);
-        mRecords.put(UUID.fromString(record.getKey()), recordInstance);
-        return recordInstance;
+    private MfRecord getRecord(DataSnapshot record) {
+        return record.getValue(MfRecord.class);
     }
 
     @Override
@@ -153,24 +157,28 @@ public class MfRecordsRepository implements ChildEventListener {
 
         /**
          * Calles when a new item was added
+         *
          * @param item the item
          */
         void onItemAdded(MfRecord item);
 
         /**
          * Called when a item was updated
+         *
          * @param item the item
          */
         void onItemUpdated(MfRecord item);
 
         /**
          * Called when a item was removed
+         *
          * @param item the item
          */
         void onItemRemoved(MfRecord item);
 
         /**
          * Called when a item was moved
+         *
          * @param item the item
          */
         void onItemMoved(MfRecord item);

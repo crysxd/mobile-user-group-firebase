@@ -168,7 +168,7 @@ public class MfEditRecordActivity extends MfActivity {
         }
 
         if (unit == null) {
-            mTextInputLayoutAmount.setError(" ");
+            mTextInputLayoutUnit.setError(" ");
             valid = false;
         }
 

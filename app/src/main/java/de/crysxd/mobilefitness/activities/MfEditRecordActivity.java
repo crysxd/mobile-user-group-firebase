@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -70,13 +71,13 @@ public class MfEditRecordActivity extends MfActivity {
      * The input layout for the amount
      */
     @BindView(R.id.editTextAmount)
-    MfUnitEditText mEditTextAmount;
+    TextInputEditText mEditTextAmount;
 
     /**
      * The input layout for the exercise
      */
     @BindView(R.id.editTextExercise)
-    MfUnitEditText mEditTextExcercise;
+    TextInputEditText mEditTextExcercise;
 
     /**
      * The record repository

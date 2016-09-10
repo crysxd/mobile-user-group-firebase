@@ -21,6 +21,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +54,12 @@ public class MfSignInFragment extends MfFragment implements
      */
     @Inject
     FirebaseAuth mFirebaseAuth;
+
+    /**
+     * The {@link FirebaseAnalytics} instance
+     */
+    @Inject
+    FirebaseAnalytics mAnalytics;
 
     /**
      * The request code for the login
@@ -163,6 +170,9 @@ public class MfSignInFragment extends MfFragment implements
                 mListener.onLoginFailed();
             } else {
                 mListener.onLoginCompleted();
+                if(mFirebaseAuth.getCurrentUser() != null) {
+                    mAnalytics.setUserId(mFirebaseAuth.getCurrentUser().getUid());
+                }
             }
         }
     }

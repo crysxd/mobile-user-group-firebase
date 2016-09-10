@@ -11,6 +11,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
@@ -32,6 +33,12 @@ public class MfSignOutCommand implements Runnable, GoogleApiClient.OnConnectionF
      */
     @Inject
     GoogleSignInOptions mSignInOptions;
+
+    /**
+     * The {@link FirebaseAnalytics} instance
+     */
+    @Inject
+    FirebaseAnalytics mAnalytics;
 
     /**
      * The {@link FirebaseAuth}
@@ -80,6 +87,8 @@ public class MfSignOutCommand implements Runnable, GoogleApiClient.OnConnectionF
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
+                        mAnalytics.logEvent("sign_out", new Bundle());
+                        mAnalytics.setUserId(null);
                         mAuth.signOut();
                         mListener.onSignOutCompleted();
 

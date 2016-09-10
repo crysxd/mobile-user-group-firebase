@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -88,10 +89,16 @@ public class MfEditRecordActivity extends MfActivity {
     MfRecordsRepository mRepository;
 
     /**
-     * The record repository
+     * The {@link FirebaseAnalytics} instance
      */
     @Inject
     FirebaseAnalytics mAnalytics;
+
+    /**
+     * The remote config
+     */
+    @Inject
+    FirebaseRemoteConfig mRemoteConfig;
 
     /**
      * Starts the {@link MfEditRecordActivity}
@@ -113,7 +120,10 @@ public class MfEditRecordActivity extends MfActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         setTitle(getString(R.string.ui_create_record));
-        mButtonSave.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+
+        boolean blueButton = mRemoteConfig.getBoolean("blue_save_button");
+        int color = ContextCompat.getColor(this, blueButton ? R.color.colorBlueAccent : R.color.colorAccent);
+        mButtonSave.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
     }
 

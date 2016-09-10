@@ -7,6 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AlertDialog;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import de.crysxd.mobilefitness.data.MfUnit;
 
 /**
@@ -47,10 +51,15 @@ public class MfUnitSelectionDialogBuilder extends AlertDialog.Builder implements
      */
     private void init() {
         MfUnit[] units = MfUnit.values();
-        CharSequence[] unitTexts = new CharSequence[units.length];
+        CharSequence[] unitTexts = new CharSequence[units.length - 1];
 
+        int offset = 0;
         for (int i = 0; i < units.length; i++) {
-            unitTexts[i] = units[i].getName();
+            if (units[i] != MfUnit.UNDEFINED) {
+                unitTexts[i + offset] = (units[i].getName());
+            } else {
+                offset = -1;
+            }
         }
 
         setItems(unitTexts, this);

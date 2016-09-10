@@ -18,4 +18,5 @@
     <string name="ui_create_record">Create Record</string>
     <string name="ui_error_unable_to_save_record">Unable to save record</string>
     <string name="ui_error_enter_value">Please enter a value</string>
+    <string name="ui_error_sign_out_fialed">Sign out failed</string>
 </resources>

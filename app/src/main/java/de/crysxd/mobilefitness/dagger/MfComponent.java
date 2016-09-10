@@ -7,6 +7,7 @@ import de.crysxd.mobilefitness.activities.MfEditRecordActivity;
 import de.crysxd.mobilefitness.activities.MfLauncherActivity;
 import de.crysxd.mobilefitness.activities.MfRecordsActivity;
 import de.crysxd.mobilefitness.adapter.MfRecordsAdapter;
+import de.crysxd.mobilefitness.auth.MfSignOutCommand;
 import de.crysxd.mobilefitness.data.MfDatabase;
 import de.crysxd.mobilefitness.data.MfRecord;
 import de.crysxd.mobilefitness.fragments.MfSignInFragment;
@@ -31,5 +32,7 @@ public interface MfComponent {
     void inject(MfRecordsAdapter mfRecordsAdapter);
 
     void inject(MfEditRecordActivity mfEditRecordActivity);
+
+    void inject(MfSignOutCommand mfSignOutCommand);
 
 }

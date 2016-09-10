@@ -6,18 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -25,22 +20,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
-import dagger.multibindings.IntKey;
 import de.crysxd.mobilefitness.R;
 import de.crysxd.mobilefitness.adapter.MfRecordsAdapter;
+import de.crysxd.mobilefitness.auth.MfSignOutCommand;
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 import de.crysxd.mobilefitness.data.MfKeywordRecordFilter;
-import de.crysxd.mobilefitness.data.MfRecord;
 import de.crysxd.mobilefitness.data.MfRecordsRepository;
-import de.crysxd.mobilefitness.data.MfUnit;
 
-public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
-
-    /**
-     * The {@link FirebaseAuth}
-     */
-    @Inject
-    FirebaseAuth mAuth;
+/**
+ * The activity sowing a list of all records
+ */
+public class MfRecordsActivity extends MfActivity implements
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener, MfSignOutCommand.OnSingOutListener {
 
     /**
      * The {@link MfRecordsRepository}
@@ -67,6 +58,7 @@ public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryT
 
     /**
      * Starts the {@link MfRecordsActivity}
+     *
      * @param other the {@link Activity} which wants to start this {@link MfRecordsActivity}
      */
     public static void startActivity(Activity other) {
@@ -154,9 +146,20 @@ public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryT
      * Sign the user out and returns to login screen
      */
     private void signOut() {
-        mAuth.signOut();
+        new MfSignOutCommand(this, this).run();
+    }
+
+    @Override
+    public void onSignOutCompleted() {
         MfSignInActivity.startActivity(this);
         this.finish();
+
+    }
+
+    @Override
+    public void onSignOutFailed() {
+        Snackbar.make(this.mRecyclerView, R.string.ui_error_sign_out_fialed, Snackbar.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -180,4 +183,6 @@ public class MfRecordsActivity extends MfActivity implements SearchView.OnQueryT
         mAdapter.setFilter(null);
         return true;
     }
+
+
 }

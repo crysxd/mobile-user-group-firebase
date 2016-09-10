@@ -22,13 +22,14 @@ import dagger.Provides;
 public class MfRemoteConfigModule {
 
     @Provides
+    @Singleton
     public FirebaseRemoteConfig provideFirebaseRemoteConfig() {
         final FirebaseRemoteConfig config = FirebaseRemoteConfig.getInstance();
 
         Map<String, Object> defaults = new HashMap<>();
         defaults.put("blue_save_button", "false");
         config.setDefaults(defaults);
-        config.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
+        config.fetch(3600).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Log.i(getClass().getSimpleName(), "Remote configs fetched");

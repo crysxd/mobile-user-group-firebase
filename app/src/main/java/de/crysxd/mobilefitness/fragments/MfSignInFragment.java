@@ -111,8 +111,6 @@ public class MfSignInFragment extends MfFragment implements
             if(mListener != null) {
                 mListener.onLoginStarted();
             }
-        } else if(mListener != null) {
-            mListener.onLoginFailed();
         }
     }
 

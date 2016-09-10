@@ -1,8 +1,10 @@
 package de.crysxd.mobilefitness.data;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,12 +37,18 @@ public class MfRecordsRepository implements ChildEventListener {
     private OnRepositoryChangedListener mListener;
 
     /**
+     * The {@link FirebaseAnalytics} instance
+     */
+    private FirebaseAnalytics mAnalytics;
+
+    /**
      * Creates a new instance
      *
      * @param database the database
      */
-    public MfRecordsRepository(MfDatabase database) {
+    public MfRecordsRepository(MfDatabase database, FirebaseAnalytics analytics) {
         mDatabase = database;
+        mAnalytics = analytics;
     }
 
     /**
@@ -126,7 +134,12 @@ public class MfRecordsRepository implements ChildEventListener {
      */
     public synchronized void save(MfRecord record) {
         getRecordRef(record.getId()).setValue(record);
-        this.mRecords.put(record.getId(), record);
+        mRecords.put(record.getId(), record);
+
+        Bundle data = new Bundle();
+        data.putString("exercise", record.getExercise());
+        mAnalytics.logEvent("record_created", data);
+        updateRecordsCount();
     }
 
     /**
@@ -136,6 +149,15 @@ public class MfRecordsRepository implements ChildEventListener {
      */
     public synchronized void delete(MfRecord record) {
         getRecordRef(record.getId()).removeValue();
+        mAnalytics.logEvent("record_deleted", new Bundle());
+        updateRecordsCount();
+    }
+
+    /**
+     * Updated the record count in analytics
+     */
+    private void updateRecordsCount() {
+        mAnalytics.setUserProperty("record_count", mRecords.size() + "");
     }
 
     /**

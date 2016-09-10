@@ -18,7 +18,7 @@ import de.crysxd.mobilefitness.fragments.MfSignInFragment;
 @Singleton
 @Component(modules = {MfAppModule.class, MfAuthModule.class, MfDataModule.class,
         MfAnalyticsModule.class, MfRemoteConfigModule.class})
-interface MfComponent {
+public interface MfComponent {
 
     void inject(MfSignInFragment mfSignInFragment);
 

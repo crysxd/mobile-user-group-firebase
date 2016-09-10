@@ -18,6 +18,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
     applicationVariants.all { variant ->
         // Set version name so crashes in Firebase get seperated from release builds
         if (variant.buildType.name.equals('debug')) {

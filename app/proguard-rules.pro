@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keepclassmembers class de.crysxd.mobilefitness.data.MfRecord {
+   public *** getData();
+   public void setData(***);
+}
+
+-keepclassmembers class de.crysxd.mobilefitness.data.MfRecord$Data {
+   public *;
+}

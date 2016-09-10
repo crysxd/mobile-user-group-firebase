@@ -2,6 +2,7 @@ package de.crysxd.mobilefitness.dagger;
 
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,7 +49,7 @@ public class MfDataModule {
 
     @Provides
     @Singleton
-    public MfRecordsRepository provideRecordsRepository(MfDatabase database) {
-        return new MfRecordsRepository(database);
+    public MfRecordsRepository provideRecordsRepository(MfDatabase database, FirebaseAnalytics analytics) {
+        return new MfRecordsRepository(database, analytics);
     }
 }

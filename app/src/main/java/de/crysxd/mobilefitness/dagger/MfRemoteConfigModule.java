@@ -19,11 +19,11 @@ import dagger.Provides;
  * A module for remote config
  */
 @Module
-public class MfRemoteConfigModule {
+class MfRemoteConfigModule {
 
     @Provides
     @Singleton
-    public FirebaseRemoteConfig provideFirebaseRemoteConfig() {
+    FirebaseRemoteConfig provideFirebaseRemoteConfig() {
         final FirebaseRemoteConfig config = FirebaseRemoteConfig.getInstance();
 
         Map<String, Object> defaults = new HashMap<>();

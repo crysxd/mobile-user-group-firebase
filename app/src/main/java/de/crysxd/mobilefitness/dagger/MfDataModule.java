@@ -19,11 +19,11 @@ import de.crysxd.mobilefitness.data.MfRecordsRepository;
  * A module for database
  */
 @Module
-public class MfDataModule {
+class MfDataModule {
 
     @Provides
     @Singleton
-    public FirebaseDatabase provideFirebaseDatabase() {
+    FirebaseDatabase provideFirebaseDatabase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
         return database;
@@ -31,25 +31,25 @@ public class MfDataModule {
 
     @Provides
     @Singleton
-    public MfDatabase provideDatabase(FirebaseAuth auth, FirebaseDatabase database) {
+    MfDatabase provideDatabase(FirebaseAuth auth, FirebaseDatabase database) {
         return new MfDatabase(auth, database);
     }
 
     @Provides
     @Singleton
-    public MfDateConverter provideDateConverter() {
+    MfDateConverter provideDateConverter() {
         return new MfDateConverter();
     }
 
     @Provides
     @Singleton
-    public MfDrawableResourceConverter provideDrawableResourceConverter(Context con) {
+    MfDrawableResourceConverter provideDrawableResourceConverter(Context con) {
         return new MfDrawableResourceConverter(con);
     }
 
     @Provides
     @Singleton
-    public MfRecordsRepository provideRecordsRepository(MfDatabase database, FirebaseAnalytics analytics) {
+    MfRecordsRepository provideRecordsRepository(MfDatabase database, FirebaseAnalytics analytics) {
         return new MfRecordsRepository(database, analytics);
     }
 }

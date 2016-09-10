@@ -10,21 +10,21 @@ import dagger.Provides;
  * A module for {@link Application} and {@link Context}
  */
 @Module
-public class MfAppModule {
+class MfAppModule {
 
     private Application mApplication;
 
-    public MfAppModule(Application application) {
+    MfAppModule(Application application) {
         mApplication = application;
     }
 
     @Provides
-    public Application provideApplication() {
+    Application provideApplication() {
         return mApplication;
     }
 
     @Provides
-    public Context provideContext() {
+    Context provideContext() {
         return mApplication;
     }
 }

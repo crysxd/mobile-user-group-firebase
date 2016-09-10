@@ -13,11 +13,11 @@ import dagger.Provides;
  * A module for Firebase analytics
  */
 @Module
-public class MfAnalyticsModule {
+class MfAnalyticsModule {
 
     @Provides
     @Singleton
-    public FirebaseAnalytics provideFirebaseAnalytics(Context con) {
+    FirebaseAnalytics provideFirebaseAnalytics(Context con) {
         return FirebaseAnalytics.getInstance(con);
     }
 

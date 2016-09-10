@@ -19,4 +19,7 @@
     <string name="ui_error_unable_to_save_record">Unable to save record</string>
     <string name="ui_error_enter_value">Please enter a value</string>
     <string name="ui_error_sign_out_fialed">Sign out failed</string>
+    <string name="ui_really_delete_x">Do you really want to delete \"%s\"?</string>
+    <string name="ui_delete">Delete</string>
+    <string name="ui_cacel">Cancel</string>
 </resources>

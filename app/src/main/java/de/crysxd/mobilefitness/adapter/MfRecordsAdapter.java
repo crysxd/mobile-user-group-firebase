@@ -1,8 +1,11 @@
 package de.crysxd.mobilefitness.adapter;
 
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.text.DateFormat;
@@ -23,7 +26,7 @@ import de.crysxd.mobilefitness.data.MfRecordsRepository;
 /**
  * A adapter listing all {@link MfRecord} instances from {@link MfRecordsRepository}
  */
-public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements MfRecordsRepository.OnRepositoryChangedListener{
+public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements MfRecordsRepository.OnRepositoryChangedListener, View.OnLongClickListener {
 
     /**
      * The repository
@@ -109,6 +112,8 @@ public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             recordHolder.imageViewIcon.setImageResource(item.getIconResource());
             recordHolder.textViewDetail.setText(detail);
             recordHolder.textViewTitle.setText(item.getExercise());
+            recordHolder.itemView.setTag(item);
+            recordHolder.itemView.setOnLongClickListener(this);
         } else {
             MfDateRange item = (MfDateRange) mItems.get(position);
             MfGroupHeaderViewHolder groupHeaderHolder = (MfGroupHeaderViewHolder) holder;
@@ -186,5 +191,26 @@ public class MfRecordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onItemMoved(MfRecord item) {
         onItemUpdated(item);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        Object tag = view.getTag();
+        if(tag instanceof MfRecord) {
+            final MfRecord record = (MfRecord) tag;
+            new AlertDialog.Builder(view.getContext())
+                    .setMessage(view.getContext().getString(R.string.ui_really_delete_x, record.getExercise()))
+                    .setPositiveButton(R.string.ui_delete, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mRepository.delete(record);
+                        }
+                    })
+                    .setNegativeButton(R.string.ui_cacel, null)
+                    .show();
+            return true;
+        }
+
+        return false;
     }
 }

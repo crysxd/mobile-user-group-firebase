@@ -33,9 +33,9 @@ public class RemoteLog {
      * Logs the string to the remote logger
      * @param tag the log's tag
      * @param message the log's message
-     * @param t the {@ilnk Throwable} to be logged
+     * @param t the {@link Throwable} to be logged
      */
     public static void log(String tag, String message, Throwable t) {
-        sLogger.log(tag, message);
+        sLogger.log(tag, message, t);
     }
 }

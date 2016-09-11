@@ -26,6 +26,7 @@ import de.crysxd.mobilefitness.auth.MfSignOutCommand;
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 import de.crysxd.mobilefitness.data.MfKeywordRecordFilter;
 import de.crysxd.mobilefitness.data.MfRecordsRepository;
+import de.crysxd.mobilefitness.log.RemoteLog;
 
 /**
  * The activity sowing a list of all records
@@ -92,6 +93,7 @@ public class MfRecordsActivity extends MfActivity implements
                 .setPositiveButton(R.string.ui_crash, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        RemoteLog.log("ExampleTag", "Exception while doing something", new ArithmeticException("Devided by 0"));
                         throw new RuntimeException("Hello, Firebase!");
 
                     }

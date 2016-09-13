@@ -7,11 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -20,8 +22,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import javax.inject.Inject;
 
@@ -107,7 +111,13 @@ public class MfSignInFragment extends MfFragment implements
     private void handleSignInResult(GoogleSignInResult result) {
         RemoteLog.log(getClass().getSimpleName(), "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // TODO
+            // Signed in successfully, forward result to firebase
+            GoogleSignInAccount account = result.getSignInAccount();
+            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            mFirebaseAuth.signInWithCredential(credential).addOnCompleteListener(this.getActivity(), this);
+            if(mListener != null) {
+                mListener.onLoginStarted();
+            }
         }
     }
 
@@ -151,7 +161,20 @@ public class MfSignInFragment extends MfFragment implements
     public void onComplete(@NonNull Task<AuthResult> task) {
         RemoteLog.log(getClass().getSimpleName(), "signInWithCredential:onComplete:" + task.isSuccessful());
 
-        // TODO
+        // If sign in fails, display a message to the user. If sign in succeeds
+        // the auth state listener will be notified and logic to handle the
+        // signed in user can be handled in the listener.
+        if(mListener != null){
+            if (!task.isSuccessful()) {
+                RemoteLog.log(getClass().getSimpleName(), "signInWithCredential", task.getException());
+                mListener.onLoginFailed();
+            } else {
+                mListener.onLoginCompleted();
+                if(mFirebaseAuth.getCurrentUser() != null) {
+                    mAnalytics.setUserId(mFirebaseAuth.getCurrentUser().getUid());
+                }
+            }
+        }
     }
 
     /**

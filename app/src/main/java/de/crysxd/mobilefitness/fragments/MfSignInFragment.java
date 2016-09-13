@@ -111,13 +111,7 @@ public class MfSignInFragment extends MfFragment implements
     private void handleSignInResult(GoogleSignInResult result) {
         RemoteLog.log(getClass().getSimpleName(), "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, forward result to firebase
-            GoogleSignInAccount account = result.getSignInAccount();
-            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-            mFirebaseAuth.signInWithCredential(credential).addOnCompleteListener(this.getActivity(), this);
-            if(mListener != null) {
-                mListener.onLoginStarted();
-            }
+            //TODO
         }
     }
 
@@ -161,20 +155,8 @@ public class MfSignInFragment extends MfFragment implements
     public void onComplete(@NonNull Task<AuthResult> task) {
         RemoteLog.log(getClass().getSimpleName(), "signInWithCredential:onComplete:" + task.isSuccessful());
 
-        // If sign in fails, display a message to the user. If sign in succeeds
-        // the auth state listener will be notified and logic to handle the
-        // signed in user can be handled in the listener.
-        if(mListener != null){
-            if (!task.isSuccessful()) {
-                RemoteLog.log(getClass().getSimpleName(), "signInWithCredential", task.getException());
-                mListener.onLoginFailed();
-            } else {
-                mListener.onLoginCompleted();
-                if(mFirebaseAuth.getCurrentUser() != null) {
-                    mAnalytics.setUserId(mFirebaseAuth.getCurrentUser().getUid());
-                }
-            }
-        }
+        //TODO
+
     }
 
     /**

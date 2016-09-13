@@ -136,9 +136,7 @@ public class MfRecordsRepository implements ChildEventListener {
         getRecordRef(record.getId()).setValue(record);
         mRecords.put(record.getId(), record);
 
-        Bundle data = new Bundle();
-        data.putString("exercise", record.getExercise());
-        mAnalytics.logEvent("record_created", data);
+        // TODO
         updateRecordsCount();
     }
 
@@ -149,7 +147,7 @@ public class MfRecordsRepository implements ChildEventListener {
      */
     public synchronized void delete(MfRecord record) {
         getRecordRef(record.getId()).removeValue();
-        mAnalytics.logEvent("record_deleted", new Bundle());
+        // TODO
         updateRecordsCount();
     }
 
@@ -157,7 +155,7 @@ public class MfRecordsRepository implements ChildEventListener {
      * Updated the record count in analytics
      */
     private void updateRecordsCount() {
-        mAnalytics.setUserProperty("record_count", mRecords.size() + "");
+        // TODO
     }
 
     /**

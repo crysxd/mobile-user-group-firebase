@@ -26,16 +26,7 @@ class MfRemoteConfigModule {
     FirebaseRemoteConfig provideFirebaseRemoteConfig() {
         final FirebaseRemoteConfig config = FirebaseRemoteConfig.getInstance();
 
-        Map<String, Object> defaults = new HashMap<>();
-        defaults.put("blue_save_button", "false");
-        config.setDefaults(defaults);
-        config.fetch(1 /* seconds */).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.i(getClass().getSimpleName(), "Remote configs fetched");
-                config.activateFetched();
-            }
-        });
+        // TODO
 
         return config;
     }

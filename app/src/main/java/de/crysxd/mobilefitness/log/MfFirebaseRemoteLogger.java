@@ -9,16 +9,11 @@ public class MfFirebaseRemoteLogger implements MfRemoteLogger {
 
     @Override
     public void log(String tag, String message) {
-        if (FirebaseCrash.isSingletonInitialized()) {
-            FirebaseCrash.log("[" + tag + "] " + message);
-        }
+        // TODO
     }
 
     @Override
     public void log(String tag, String message, Throwable e) {
-        if (FirebaseCrash.isSingletonInitialized()) {
-            this.log(tag, message);
-            FirebaseCrash.report(e);
-        }
+        // TODO
     }
 }

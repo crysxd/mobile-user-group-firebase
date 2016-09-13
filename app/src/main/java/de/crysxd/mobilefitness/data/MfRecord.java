@@ -64,23 +64,7 @@ public class MfRecord {
         mData.id = id.toString();
     }
 
-    /**
-     * Sets all data. This is required for Firebase
-     *
-     * @param data all data
-     */
-    public void setData(Data data) {
-        mData = data;
-    }
-
-    /**
-     * Returns all data. This is required for Firebase
-     *
-     * @return all data
-     */
-    public Data getData() {
-        return mData;
-    }
+    // TODO
 
     /**
      * Sets the creation time

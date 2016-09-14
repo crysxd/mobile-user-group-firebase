@@ -83,17 +83,7 @@ public class MfSignOutCommand implements Runnable, GoogleApiClient.OnConnectionF
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        mAnalytics.logEvent("sign_out", new Bundle());
-                        mAnalytics.setUserId(null);
-                        mAuth.signOut();
-                        mListener.onSignOutCompleted();
-
-                    }
-                });
+        // TODO
     }
 
     @Override

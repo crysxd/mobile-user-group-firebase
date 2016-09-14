@@ -21,7 +21,7 @@ import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 /**
  * A command class to sign the user out
  */
-public class MfSignOutCommand2 implements Runnable, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MfSignOutCommand implements Runnable, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     /**
      * The {@link GoogleApiClient} used for sign in
@@ -57,7 +57,7 @@ public class MfSignOutCommand2 implements Runnable, GoogleApiClient.OnConnection
      * @param a        a {@link FragmentActivity}
      * @param listener the {@link OnSingOutListener}
      */
-    public MfSignOutCommand2(@NonNull FragmentActivity a, @NonNull OnSingOutListener listener) {
+    public MfSignOutCommand(@NonNull FragmentActivity a, @NonNull OnSingOutListener listener) {
         MfComponentHolder.i().inject(this);
         this.mListener = listener;
 

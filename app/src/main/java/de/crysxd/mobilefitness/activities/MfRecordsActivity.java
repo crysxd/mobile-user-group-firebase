@@ -22,7 +22,7 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import de.crysxd.mobilefitness.R;
 import de.crysxd.mobilefitness.adapter.MfRecordsAdapter;
-import de.crysxd.mobilefitness.auth.MfSignOutCommand;
+import de.crysxd.mobilefitness.auth.MfSignOutCommand2;
 import de.crysxd.mobilefitness.dagger.MfComponentHolder;
 import de.crysxd.mobilefitness.data.MfKeywordRecordFilter;
 import de.crysxd.mobilefitness.data.MfRecordsRepository;
@@ -32,7 +32,7 @@ import de.crysxd.mobilefitness.log.RemoteLog;
  * The activity sowing a list of all records
  */
 public class MfRecordsActivity extends MfActivity implements
-        SearchView.OnQueryTextListener, SearchView.OnCloseListener, MfSignOutCommand.OnSingOutListener {
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener, MfSignOutCommand2.OnSingOutListener {
 
     /**
      * The {@link MfRecordsRepository}
@@ -148,7 +148,7 @@ public class MfRecordsActivity extends MfActivity implements
      * Sign the user out and returns to login screen
      */
     private void signOut() {
-        new MfSignOutCommand(this, this).run();
+        new MfSignOutCommand2(this, this).run();
     }
 
     @Override

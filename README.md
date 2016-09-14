@@ -6,6 +6,9 @@ Small sample application for Firebase Analytics, Database, Remote Config and Cra
 # How to build
 A new Firebase project must be created in order to build the project. Add the google-services.json class to the project and configure Firebase.
 
+## Auth
+Enable Google as authentification method
+
 ## Remote Config
 Create a remote config named "blue_save_button" with value "true" or "false"
 

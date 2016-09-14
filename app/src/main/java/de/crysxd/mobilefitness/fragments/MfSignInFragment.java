@@ -75,10 +75,8 @@ public class MfSignInFragment extends MfFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        SignInButton button = new SignInButton(this.getContext());
-        button.setOnClickListener(this);
-        button.setScopes(this.mSignInOptions.getScopeArray());
-        return button;
+        // TODO
+        return new View(this.getContext());
 
     }
 
